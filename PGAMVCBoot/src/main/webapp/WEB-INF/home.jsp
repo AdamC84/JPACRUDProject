@@ -23,7 +23,7 @@
 	
 	<br>
 	<h2>Would you like to add a Golfer to the database?</h2>
-	<form action="addGolfer.do" method="GET">
+	<form action="addGolferForm.do" method="GET">
 		<label for="addGolfer"> Add Golfer:</label> <input type="submit"
 			value="ADD Golfer">
 	</form>
