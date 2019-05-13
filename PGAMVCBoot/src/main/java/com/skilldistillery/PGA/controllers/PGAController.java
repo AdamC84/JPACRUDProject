@@ -19,28 +19,32 @@ public class PGAController {
 
 	@Autowired
 	private PGADAO pd;
-//
-//	@RequestMapping(path = "/", method = RequestMethod.GET)
-//	public String index() {
-//		return "WEB-INF/home.jsp";
-//	}
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
-	public String createGolfer(Golfer golfer) {
-		ModelAndView mv = new ModelAndView();
-		Golfer newGolfer = null;
-		try {
-			newGolfer = pd.createGolfer(golfer);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mv.addObject("newGolfer", newGolfer);
-		return "WEB-INF/addGolferForm.jsp";
+	public String index() {
+		return "WEB-INF/home.jsp";
+	}
+	@RequestMapping(path = "home.do", method = RequestMethod.GET)
+	public String home() {
+		return "WEB-INF/home.jsp";
 	}
 
-	@RequestMapping(path = "findGolferById.do", method = RequestMethod.GET)
-	public String getgolferById(@RequestParam("id") int id) {
+//	@RequestMapping(path = "/", method = RequestMethod.GET)
+//	public String createGolfer(Golfer golfer) {
+//		ModelAndView mv = new ModelAndView();
+//		Golfer newGolfer = null;
+//		try {
+//			newGolfer = pd.createGolfer(golfer);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		mv.addObject("newGolfer", newGolfer);
+//		return "WEB-INF/addGolferForm.jsp";
+//	}
+
+	@RequestMapping(path = "findGolferByID.do", method = RequestMethod.GET)
+	public ModelAndView getgolferById(@RequestParam("id") int id) {
 		ModelAndView mv = new ModelAndView();
 		Golfer golfer = null;
 		try {
@@ -50,11 +54,13 @@ public class PGAController {
 			e.printStackTrace();
 		}
 		mv.addObject("newGolfer", golfer);
-		return "WEB-INF/results.jsp";
+		mv.setViewName("WEB-INF/results.jsp");
+		return mv;
 	}
 
 	@RequestMapping(path = "deleteGolfer.do", method = RequestMethod.GET)
-	public String deleteGolfer(@RequestParam("golfer") Golfer golfer) {
+	public ModelAndView deleteGolfer(@RequestParam("golfer") Golfer golfer) {
+		ModelAndView mv = new ModelAndView();
 		try {
 			pd.deleteGolfer(golfer);
 			;
@@ -62,24 +68,22 @@ public class PGAController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "WEB-INF/results.jsp";
+		mv.setViewName("WEB-INF/results.jsp");
+		return mv;
 	}
 
 	@RequestMapping(path = "updateGolfer.do", method = RequestMethod.GET)
-	public String updateGolfer(@RequestParam("golfer") Golfer golfer) {
+	public ModelAndView updateGolfer(int id) throws SQLException {
+		Golfer golf = pd.findGolferById(id);
 		ModelAndView mv = new ModelAndView();
-		try {
-			golfer = pd.updateGolfer(golfer);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mv.addObject("newGolfer", golfer);
-		return "WEB-INF/Edit.jsp";
+		
+		mv.addObject("newGolfer", golf);
+		mv.setViewName("WEB-INF/Edit.jsp");
+		return mv;
 	}
 
 	@RequestMapping(path = "keyword.do", method = RequestMethod.GET)
-	public String searchByKeyword(@RequestParam("keyword") String keyword) {
+	public ModelAndView searchByKeyword(@RequestParam("keyword") String keyword) {
 		ModelAndView mv = new ModelAndView();
 		List<Golfer> golfer = new ArrayList<>();
 		try {
@@ -88,8 +92,10 @@ public class PGAController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mv.addObject("newGolfer", golfer);
-		return "WEB-INF/Edit.jsp";
+		System.out.println(golfer);
+		mv.addObject("golferList", golfer);
+		mv.setViewName("WEB-INF/keyword.jsp");
+		return mv;
 	}
 
 }

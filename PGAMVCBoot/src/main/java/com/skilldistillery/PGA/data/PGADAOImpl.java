@@ -28,8 +28,8 @@ public class PGADAOImpl implements PGADAO {
 	@Override
 	public List<Golfer> findGolferByKeyword(String keyword) throws SQLException {
 		List<Golfer> golferList = new ArrayList<>();
-		String query = "SELECT golfer FROM Golfer golfer where golfer.firstName like '%:keyword%' or golfer.lastName like '%:keyword%'";
-		golferList = em.createQuery(query, Golfer.class).setParameter(":keyword", keyword).getResultList();
+		String query = "SELECT golfer FROM Golfer golfer where golfer.firstName like :keyword or golfer.lastName like :keyword";
+		golferList = em.createQuery(query, Golfer.class).setParameter("keyword", "%" + keyword + "%").getResultList();
 
 		return golferList;
 	}
@@ -40,10 +40,10 @@ public class PGADAOImpl implements PGADAO {
 		newGolfer.setFirstName(golfer.getFirstName());
 		newGolfer.setLastName(golfer.getLastName());
 		newGolfer.setPgaWins(golfer.getPgaWins());
-	    newGolfer.setCollegeAttended(golfer.getCollegeAttended());
-	    newGolfer.setTotalEarnings(golfer.getTotalEarnings());
-	    em.persist(newGolfer);
-	    em.flush();
+		newGolfer.setCollegeAttended(golfer.getCollegeAttended());
+		newGolfer.setTotalEarnings(golfer.getTotalEarnings());
+		em.persist(newGolfer);
+		em.flush();
 		return newGolfer;
 	}
 
@@ -57,11 +57,15 @@ public class PGADAOImpl implements PGADAO {
 
 	@Override
 	public Golfer updateGolfer(Golfer golfer) throws SQLException {
-		String sql = "UPDATE Golfer golfer set firstName = :fN, lastName = :lN, pgaWins = :pW, collegeAttended =:cA, totalEarnings = :tE where golfer.id = :id";
-		Golfer newGolfer = em.createQuery(sql, Golfer.class).setParameter(":fN", golfer.getFirstName())
-				.setParameter(":lN", golfer.getLastName()).setParameter(":pW", golfer.getPgaWins())
-				.setParameter(":cA", golfer.getCollegeAttended()).setParameter(":tE", golfer.getTotalEarnings())
-				.setParameter(":id", golfer.getId()).getResultList().get(0);
+		Golfer newGolfer = em.find(Golfer.class, golfer.getId());
+		newGolfer.setFirstName(golfer.getFirstName());
+		newGolfer.setLastName(golfer.getLastName());
+		newGolfer.setPgaWins(golfer.getPgaWins());
+		newGolfer.setCollegeAttended(golfer.getCollegeAttended());
+		newGolfer.setTotalEarnings(golfer.getTotalEarnings());
+		em.persist(newGolfer);
+		em.flush();
+
 		return newGolfer;
 
 	}

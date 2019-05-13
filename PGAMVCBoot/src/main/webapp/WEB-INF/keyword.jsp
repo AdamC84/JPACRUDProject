@@ -11,20 +11,17 @@
 </head>
 <body>
 
-	<c:if test="${empty newGolfer }">
-		<h2>Your query returned no results.</h2>
-	</c:if>
-	<c:if test="${not empty newGolfer }">
-	<h3>${newGolfer.firstName }${newGolfer.lastName }</h3>
-			<ul>
-				<li>PGA wins: ${newGolfer.pgaWins}</li>
-				<li>College Attended: ${newGolfer.collegeAttended}</li>
-				<li>Total PGA earnings ${newGolfer.totalEarnings}</li>
-			</ul>
-	</c:if>
-		
 	
-		<form action="updateGolfer.do" value="${golferList.id }" method="GET">
+		
+	<c:forEach var="golferList" items="${golferList }">
+
+			<h3>${golferList.firstName }${golferList.lastName }</h3>
+			<ul>
+				<li>PGA wins: ${golferList.pgaWins}</li>
+				<li>College Attended: ${golferList.collegeAttended}</li>
+				<li>Total PGA earnings ${golferList.totalEarnings}</li>
+			</ul>
+		<form action="updateGolfer.do?id=${golferList.id }" method="GET">
 			<input type="submit" value="Edit">
 		</form>
 		<h2>Would you like to delete this Golfer?</h2>
@@ -32,6 +29,7 @@
 			<label for="deleteGolfer">Type yes.</label><input type="text"
 				name="yes"><br /> <input type="submit" value="Submit">
 		</form>
+		</c:forEach>
 		<form action="home.do" method="GET">
 			<label for="home"></label><input type="submit" value="Home" />
 		</form>
