@@ -25,7 +25,7 @@ class PGAtest {
 
 	@BeforeAll
 	public static void setUpAll() {
-		emf = Persistence.createEntityManagerFactory("PGAJPA");
+		emf = Persistence.createEntityManagerFactory("PGA");
 
 	}
 
@@ -59,7 +59,7 @@ class PGAtest {
 		assertEquals("Nicklaus", golfer.getLastName());
 		assertEquals("The Ohio State University", golfer.getCollegeAttended());
 		assertEquals(73, golfer.getPgaWins());
-		assertEquals(57000000, golfer.getTotalEarnings());
+		assertEquals(5700000, golfer.getTotalEarnings());
 	}
 }
 
