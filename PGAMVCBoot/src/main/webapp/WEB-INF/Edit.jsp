@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Please Fill Out The Film Form</title>
+<title>Please Fill Out The Golfer Form</title>
 </head>
 <body>
 	<form:form action="updateGolfer.do" method="GET" modelAttribute="golfer">
@@ -19,7 +19,7 @@
 		Last Name:<form:input path="lastName" value="${newGolfer.lastName }"/><br>
 		PGA Wins:<form:input path="pgaWins" value="${newGolfer.pgaWins }"/><br> 
 		College Attended:<form:input path="collegeAttended" value="${newGolfer.collegeAttended }"/><br> 
-		PGA Earnings:<form:input path="earnings" value="${neGolfer.earnings }"/><br> 
+		PGA Earnings:<form:input path="totalEarnings" value="${newGolfer.totalEarnings }"/><br> 
 	    <input type="submit" value="Submit"/>
 		</form:form>
 </body>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,12 +73,13 @@ public class PGAController {
 		return mv;
 	}
 
-	@RequestMapping(path = "updateGolfer.do", method = RequestMethod.GET)
-	public ModelAndView updateGolfer(int id) throws SQLException {
-		Golfer golf = pd.findGolferById(id);
+	@RequestMapping(path ="editGolfer.do", method = RequestMethod.POST)
+	public ModelAndView editGolferForm(@RequestParam("value")int id) throws SQLException {
 		ModelAndView mv = new ModelAndView();
-		
-		mv.addObject("newGolfer", golf);
+//		int id = Integer.parseInt(value);
+		Golfer golfer = pd.findGolferById(id);
+		System.out.println(golfer);
+		mv.addObject("golfer", golfer);
 		mv.setViewName("WEB-INF/Edit.jsp");
 		return mv;
 	}
@@ -92,9 +94,21 @@ public class PGAController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(golfer);
+//		System.out.println(golfer);
 		mv.addObject("golferList", golfer);
 		mv.setViewName("WEB-INF/keyword.jsp");
+		return mv;
+	}
+	@RequestMapping("updateGolfer.do")
+	public ModelAndView updateGolferForm(@ModelAttribute("golfer") Golfer golfer) throws SQLException {
+		ModelAndView mv = new ModelAndView();
+		try {
+			pd.updateGolfer(golfer);
+			mv.setViewName("WEB-INF/update.jsp");
+		} catch (Exception e) {
+			mv.setViewName("WEB-INF/error.jsp");
+		}
+
 		return mv;
 	}
 

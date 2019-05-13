@@ -24,7 +24,7 @@
 	</c:if>
 		
 	
-		<form action="updateGolfer.do" value="${golferList.id }" method="GET">
+		<form action="updateGolfer.do?value=${newGolfer.id }" method="GET">
 			<input type="submit" value="Edit">
 		</form>
 		<h2>Would you like to delete this Golfer?</h2>

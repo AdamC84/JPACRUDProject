@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib  uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -13,17 +15,17 @@
 
 	
 		
-	<c:forEach var="golferList" items="${golferList }">
+	<c:forEach var="golfer" items="${golferList }">
 
-			<h3>${golferList.firstName }${golferList.lastName }</h3>
+			<h3>${golfer.firstName }${golfer.lastName }</h3>
 			<ul>
-				<li>PGA wins: ${golferList.pgaWins}</li>
-				<li>College Attended: ${golferList.collegeAttended}</li>
-				<li>Total PGA earnings ${golferList.totalEarnings}</li>
+				<li>PGA wins: ${golfer.pgaWins}</li>
+				<li>College Attended: ${golfer.collegeAttended}</li>
+				<li>Total PGA earnings ${golfer.totalEarnings}</li>
 			</ul>
-		<form action="updateGolfer.do?id=${golferList.id }" method="GET">
-			<input type="submit" value="Edit">
-		</form>
+			<form action="editGolfer.do?value=${golfer.id }" method="post">
+		<input type="submit" value="Edit">
+	</form>
 		<h2>Would you like to delete this Golfer?</h2>
 		<form action="deleteGolfer.do" method="GET">
 			<label for="deleteGolfer">Type yes.</label><input type="text"
