@@ -1,6 +1,8 @@
 package com.skilldistillery.PGA.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +19,27 @@ public class PGAController {
 
 	@Autowired
 	private PGADAO pd;
+//
+//	@RequestMapping(path = "/", method = RequestMethod.GET)
+//	public String index() {
+//		return "WEB-INF/home.jsp";
+//	}
 
-	@RequestMapping(path = "findGolferById", method = RequestMethod.GET)
+	@RequestMapping(path = "/", method = RequestMethod.GET)
+	public String createGolfer(Golfer golfer) {
+		ModelAndView mv = new ModelAndView();
+		Golfer newGolfer = null;
+		try {
+			newGolfer = pd.createGolfer(golfer);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.addObject("newGolfer", newGolfer);
+		return "WEB-INF/addGolferForm.jsp";
+	}
+
+	@RequestMapping(path = "findGolferById.do", method = RequestMethod.GET)
 	public String getgolferById(@RequestParam("id") int id) {
 		ModelAndView mv = new ModelAndView();
 		Golfer golfer = null;
@@ -28,19 +49,47 @@ public class PGAController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		mv.addObject("golfer", golfer);
+		mv.addObject("newGolfer", golfer);
 		return "WEB-INF/results.jsp";
 	}
 
-//	@RequestMapping(path = "getGolfer.do", method = RequestMethod.GET)
-//	public ModelAndView getFilm(@RequestParam("fid") int fid) {
-//		ModelAndView mv = new ModelAndView();
-//
-//		Film film = filmDAO.findById(fid);
-//
-//		mv.addObject("film", film);
-//		mv.setViewName("WEB-INF/film/show.jsp");
-//		return mv;
-//	}
+	@RequestMapping(path = "deleteGolfer.do", method = RequestMethod.GET)
+	public String deleteGolfer(@RequestParam("golfer") Golfer golfer) {
+		try {
+			pd.deleteGolfer(golfer);
+			;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "WEB-INF/results.jsp";
+	}
+
+	@RequestMapping(path = "updateGolfer.do", method = RequestMethod.GET)
+	public String updateGolfer(@RequestParam("golfer") Golfer golfer) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			golfer = pd.updateGolfer(golfer);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.addObject("newGolfer", golfer);
+		return "WEB-INF/Edit.jsp";
+	}
+
+	@RequestMapping(path = "keyword.do", method = RequestMethod.GET)
+	public String searchByKeyword(@RequestParam("keyword") String keyword) {
+		ModelAndView mv = new ModelAndView();
+		List<Golfer> golfer = new ArrayList<>();
+		try {
+			golfer = pd.findGolferByKeyword(keyword);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		mv.addObject("newGolfer", golfer);
+		return "WEB-INF/Edit.jsp";
+	}
 
 }

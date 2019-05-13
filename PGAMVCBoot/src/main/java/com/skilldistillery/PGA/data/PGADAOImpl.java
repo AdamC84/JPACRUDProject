@@ -35,11 +35,16 @@ public class PGADAOImpl implements PGADAO {
 	}
 
 	@Override
-	public void createGolfer(Golfer golfer) throws SQLException {
-		String sql = "INSERT INTO Golfer  (firstName, lastName, pgaWins, collegeAttended, totalEarnings) VALUE (:fN, :lN, :pW, :cA, tE)";
-		em.createQuery(sql, Golfer.class).setParameter(":fN", golfer.getFirstName())
-				.setParameter(":lN", golfer.getLastName()).setParameter(":pW", golfer.getPgaWins())
-				.setParameter(":cA", golfer.getCollegeAttended()).setParameter(":tE", golfer.getTotalEarnings());
+	public Golfer createGolfer(Golfer golfer) throws SQLException {
+		Golfer newGolfer = new Golfer();
+		newGolfer.setFirstName(golfer.getFirstName());
+		newGolfer.setLastName(golfer.getLastName());
+		newGolfer.setPgaWins(golfer.getPgaWins());
+	    newGolfer.setCollegeAttended(golfer.getCollegeAttended());
+	    newGolfer.setTotalEarnings(golfer.getTotalEarnings());
+	    em.persist(newGolfer);
+	    em.flush();
+		return newGolfer;
 	}
 
 	@Override
@@ -51,12 +56,13 @@ public class PGADAOImpl implements PGADAO {
 	}
 
 	@Override
-	public void updateGolfer(Golfer golfer) throws SQLException {
+	public Golfer updateGolfer(Golfer golfer) throws SQLException {
 		String sql = "UPDATE Golfer golfer set firstName = :fN, lastName = :lN, pgaWins = :pW, collegeAttended =:cA, totalEarnings = :tE where golfer.id = :id";
-		em.createQuery(sql, Golfer.class).setParameter(":fN", golfer.getFirstName())
+		Golfer newGolfer = em.createQuery(sql, Golfer.class).setParameter(":fN", golfer.getFirstName())
 				.setParameter(":lN", golfer.getLastName()).setParameter(":pW", golfer.getPgaWins())
 				.setParameter(":cA", golfer.getCollegeAttended()).setParameter(":tE", golfer.getTotalEarnings())
-				.setParameter(":id", golfer.getId());
+				.setParameter(":id", golfer.getId()).getResultList().get(0);
+		return newGolfer;
 
 	}
 

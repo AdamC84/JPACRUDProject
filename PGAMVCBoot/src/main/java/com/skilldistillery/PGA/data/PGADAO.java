@@ -10,9 +10,9 @@ public interface PGADAO {
 
 	public List<Golfer> findGolferByKeyword(String keyword) throws SQLException;
 
-	public void createGolfer(Golfer golfer) throws SQLException;
+	public Golfer createGolfer(Golfer golfer) throws SQLException;
 
 	public void deleteGolfer(Golfer golfer) throws SQLException;
 
-	public void updateGolfer(Golfer golfer) throws SQLException;
+	public Golfer updateGolfer(Golfer golfer) throws SQLException;
 }

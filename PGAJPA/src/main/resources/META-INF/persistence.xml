@@ -9,7 +9,7 @@
     </provider>
     
     <!--  entities -->
-    <class>MY_ENTITY_CLASS_GOES_HERE</class>
+    <class>com.skilldistillery.PGA.entities.Golfer</class>
    
 
     <properties>
